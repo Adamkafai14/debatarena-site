@@ -8,9 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800;12..96,900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --orange: #FF6B1A;
-  --orange2: #FF9A4D;
-  --orange-dim: rgba(255,107,26,0.15);
+  --blue: #1CB0F6;
+  --blue2: #0E8BC4;
+  --blue-dim: rgba(28,176,246,0.15);
   --bg: #0d0d0f;
   --bg2: #111114;
   --card: #16181e;
@@ -18,8 +18,8 @@
   --border2: #2a2d3a;
   --text: #f2f2f6;
   --muted: #6b6f84;
-  --blue: #3B82F6;
-  --green: #22C55E;
+  --green: #4CD137;
+  --red: #FF3838;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -71,11 +71,11 @@ nav {
 
 .nav-logo-icon {
   width: 34px; height: 34px;
-  background: linear-gradient(135deg, var(--orange), var(--orange2));
+  background: linear-gradient(135deg, var(--blue), var(--blue2));
   border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
   font-size: 17px;
-  box-shadow: 0 0 20px rgba(255,107,26,0.4);
+  box-shadow: 0 0 20px rgba(28,176,246,0.4);
 }
 
 .nav-cta {
@@ -83,7 +83,7 @@ nav {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: var(--orange);
+  background: var(--blue);
   color: white;
   font-weight: 800;
   font-size: 13px;
@@ -95,7 +95,7 @@ nav {
 }
 .nav-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 30px rgba(255,107,26,0.5);
+  box-shadow: 0 8px 30px rgba(28,176,246,0.5);
 }
 
 /* ─── HERO ─── */
@@ -114,8 +114,8 @@ nav {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(255,107,26,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,107,26,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(28,176,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28,176,246,0.04) 1px, transparent 1px);
   background-size: 80px 80px;
   pointer-events: none;
 }
@@ -129,7 +129,7 @@ nav {
   transform: translateX(-50%);
   width: 900px;
   height: 600px;
-  background: radial-gradient(ellipse at center, rgba(255,107,26,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(28,176,246,0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -153,9 +153,9 @@ nav {
   font-weight: 800;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--orange);
-  border: 1px solid rgba(255,107,26,0.35);
-  background: rgba(255,107,26,0.08);
+  color: var(--blue);
+  border: 1px solid rgba(28,176,246,0.35);
+  background: rgba(28,176,246,0.08);
   border-radius: 100px;
   padding: 6px 14px;
   margin-bottom: 24px;
@@ -171,15 +171,20 @@ nav {
   animation: fadeUp 0.6s 0.1s ease both;
 }
 
+.hero-title .line1 {
+  display: block;
+  color: #4CD137;
+}
+
 .hero-title .line2 {
   display: block;
-  -webkit-text-stroke: 2px var(--orange);
+  -webkit-text-stroke: 2px var(--text);
   color: transparent;
 }
 
 .hero-title .line3 {
   display: block;
-  color: var(--orange);
+  color: #FF3838;
 }
 
 .hero-sub {
@@ -206,7 +211,7 @@ nav {
   align-items: center;
   gap: 10px;
   padding: 16px 28px;
-  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  background: linear-gradient(135deg, var(--blue), #0E8BC4);
   color: white;
   font-weight: 900;
   font-size: 15px;
@@ -214,19 +219,19 @@ nav {
   text-transform: uppercase;
   border-radius: 12px;
   text-decoration: none;
-  box-shadow: 0 0 40px rgba(255,107,26,0.4);
+  box-shadow: 0 0 40px rgba(28,176,246,0.4);
   transition: transform 0.2s, box-shadow 0.2s;
   animation: pulse-glow 3s infinite;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 60px rgba(255,107,26,0.6);
+  box-shadow: 0 0 60px rgba(28,176,246,0.6);
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 30px rgba(255,107,26,0.35); }
-  50% { box-shadow: 0 0 60px rgba(255,107,26,0.65); }
+  0%, 100% { box-shadow: 0 0 30px rgba(28,176,246,0.35); }
+  50% { box-shadow: 0 0 60px rgba(28,176,246,0.65); }
 }
 
 .btn-secondary {
@@ -242,7 +247,7 @@ nav {
   text-decoration: none;
   transition: border-color 0.2s, color 0.2s;
 }
-.btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+.btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
 
 .hero-stats {
   display: flex;
@@ -257,7 +262,7 @@ nav {
   font-size: 32px;
   font-weight: 900;
   letter-spacing: -1px;
-  color: var(--orange);
+  color: var(--blue);
   line-height: 1;
 }
 
@@ -319,7 +324,7 @@ nav {
   font-size: 15px;
   font-weight: 900;
   letter-spacing: -0.5px;
-  color: var(--orange);
+  color: var(--blue);
 }
 
 .phone-tabs {
@@ -343,7 +348,7 @@ nav {
 }
 
 .phone-tab.active {
-  background: var(--orange);
+  background: var(--blue);
   color: white;
 }
 
@@ -377,13 +382,13 @@ nav {
 }
 
 .duel-pour {
-  background: rgba(59,130,246,0.15);
-  border: 1px solid rgba(59,130,246,0.3);
+  background: rgba(76,209,55,0.15);
+  border: 1px solid rgba(76,209,55,0.3);
 }
 
 .duel-contre {
-  background: rgba(239,68,68,0.15);
-  border: 1px solid rgba(239,68,68,0.3);
+  background: rgba(255,56,56,0.15);
+  border: 1px solid rgba(255,56,56,0.3);
 }
 
 .duel-badge {
@@ -394,8 +399,8 @@ nav {
   margin-bottom: 4px;
 }
 
-.duel-pour .duel-badge { color: #60a5fa; }
-.duel-contre .duel-badge { color: #f87171; }
+.duel-pour .duel-badge { color: #4CD137; }
+.duel-contre .duel-badge { color: #FF3838; }
 
 .duel-pseudo {
   font-size: 10px;
@@ -424,7 +429,7 @@ nav {
   gap: 6px;
   width: 100%;
   padding: 10px;
-  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  background: linear-gradient(135deg, var(--blue), #0E8BC4);
   border-radius: 10px;
   font-size: 10px;
   font-weight: 900;
@@ -439,7 +444,7 @@ nav {
 .phone-glow {
   position: absolute;
   top: -40px; left: -40px; right: -40px; bottom: -40px;
-  background: radial-gradient(ellipse at center, rgba(255,107,26,0.15) 0%, transparent 60%);
+  background: radial-gradient(ellipse at center, rgba(28,176,246,0.15) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -461,7 +466,7 @@ section {
   font-weight: 800;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--blue);
   margin-bottom: 16px;
 }
 
@@ -469,7 +474,7 @@ section {
   content: '';
   display: block;
   width: 20px; height: 2px;
-  background: var(--orange);
+  background: var(--blue);
 }
 
 .section-title {
@@ -510,10 +515,10 @@ section {
   left: calc(16.66% + 24px);
   right: calc(16.66% + 24px);
   height: 2px;
-  background: linear-gradient(90deg, var(--orange), transparent 45%, transparent 55%, var(--orange));
+  background: linear-gradient(90deg, var(--blue), transparent 45%, transparent 55%, var(--blue));
   border-style: dashed;
   background:
-    repeating-linear-gradient(90deg, var(--orange) 0, var(--orange) 8px, transparent 8px, transparent 16px);
+    repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 8px, transparent 8px, transparent 16px);
   opacity: 0.4;
 }
 
@@ -537,7 +542,7 @@ section {
 }
 
 .step-card:hover .step-num {
-  border-color: var(--orange);
+  border-color: var(--blue);
   box-shadow: 0 0 30px rgba(255,107,26,0.3);
 }
 
@@ -545,7 +550,7 @@ section {
   position: absolute;
   top: -8px; right: -8px;
   width: 28px; height: 28px;
-  background: var(--orange);
+  background: var(--blue);
   border-radius: 50%;
   font-size: 12px;
   font-weight: 900;
@@ -589,13 +594,13 @@ section {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--orange), transparent);
+  background: linear-gradient(90deg, var(--blue), transparent);
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .feature-card:hover {
-  border-color: rgba(255,107,26,0.4);
+  border-color: rgba(28,176,246,0.4);
   transform: translateY(-3px);
 }
 
@@ -627,7 +632,7 @@ section {
   font-weight: 800;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--blue);
   background: rgba(255,107,26,0.1);
   border-radius: 100px;
   padding: 3px 10px;
@@ -651,7 +656,7 @@ section {
   font-size: 280px;
   font-weight: 900;
   letter-spacing: -10px;
-  color: rgba(255,107,26,0.04);
+  color: rgba(28,176,246,0.04);
   pointer-events: none;
   white-space: nowrap;
 }
@@ -735,11 +740,11 @@ section {
 
 .versus-icon {
   width: 64px; height: 64px;
-  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  background: linear-gradient(135deg, var(--blue), #0E8BC4);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 28px;
-  box-shadow: 0 0 40px rgba(255,107,26,0.5);
+  box-shadow: 0 0 40px rgba(28,176,246,0.5);
   animation: spin-slow 8s linear infinite;
 }
 
@@ -865,7 +870,7 @@ section {
   font-size: 22px;
   font-weight: 900;
   letter-spacing: -1px;
-  color: var(--orange);
+  color: var(--blue);
   margin-bottom: 4px;
 }
 
@@ -927,7 +932,7 @@ section {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 800px; height: 400px;
-  background: radial-gradient(ellipse, rgba(255,107,26,0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(28,176,246,0.15) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -942,7 +947,7 @@ section {
 }
 
 .cta-title .highlight {
-  color: var(--orange);
+  color: var(--blue);
   -webkit-text-stroke: 0;
 }
 
@@ -959,7 +964,7 @@ section {
   align-items: center;
   gap: 12px;
   padding: 20px 40px;
-  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  background: linear-gradient(135deg, var(--blue), #0E8BC4);
   color: white;
   font-weight: 900;
   font-size: 16px;
@@ -967,7 +972,7 @@ section {
   text-transform: uppercase;
   border-radius: 14px;
   text-decoration: none;
-  box-shadow: 0 0 60px rgba(255,107,26,0.5);
+  box-shadow: 0 0 60px rgba(28,176,246,0.5);
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
   z-index: 2;
@@ -976,7 +981,7 @@ section {
 
 .cta-btn:hover {
   transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 0 80px rgba(255,107,26,0.7);
+  box-shadow: 0 0 80px rgba(28,176,246,0.7);
 }
 
 /* ─── FOOTER ─── */
@@ -995,7 +1000,7 @@ footer {
   font-size: 16px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--blue);
 }
 
 .footer-links {
@@ -1010,7 +1015,7 @@ footer {
   text-decoration: none;
   transition: color 0.2s;
 }
-.footer-links a:hover { color: var(--orange); }
+.footer-links a:hover { color: var(--blue); }
 
 .footer-copy {
   font-size: 12px;
@@ -1085,8 +1090,8 @@ footer {
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <div class="nav-logo-icon">⚔️</div>
-    DebatArena
+    <div class="nav-logo-icon" style="background:none;padding:0;overflow:hidden;"><img src="assets/app_icon.png" style="width:100%;height:100%;object-fit:cover;border-radius:9px;" alt="DA"></div>
+    <span style="color:#4CD137">Débat</span><span style="color:#FF3838">Arena</span>
   </a>
   <a href="#" class="nav-cta" style="opacity:0.7;cursor:default;pointer-events:none;">
     🕐 Prochainement
@@ -1099,7 +1104,7 @@ footer {
     <div>
       <div class="hero-badge">⚔️ L'arène du débat vocal</div>
       <h1 class="hero-title">
-        PARLE.
+        <span class="line1">PARLE.</span>
         <span class="line2">CONVAINCS.</span>
         <span class="line3">GAGNE.</span>
       </h1>
@@ -1116,7 +1121,7 @@ footer {
       </div>
       <div class="hero-stats">
         <div>
-          <div class="stat-val">60s</div>
+          <div class="stat-val" style="color:#4CD137">60s</div>
           <div class="stat-label">Par argument</div>
         </div>
         <div>
@@ -1124,7 +1129,7 @@ footer {
           <div class="stat-label">Pour voter</div>
         </div>
         <div>
-          <div class="stat-val">1v1</div>
+          <div class="stat-val" style="color:#FF3838">1v1</div>
           <div class="stat-label">Duels auto</div>
         </div>
         <div>
@@ -1230,18 +1235,18 @@ footer {
 <section id="dev" style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-label reveal" style="justify-content:center">Le développeur</div>
-    <h2 class="section-title reveal" style="text-align:center">Qui se cache<br>derrière <span class="highlight">DebatArena</span> ?</h2>
+    <h2 class="section-title reveal" style="text-align:center">Qui se cache<br>derrière <span style="color:#4CD137">Débat</span><span style="color:#FF3838">Arena</span> ?</h2>
 
     <div style="max-width:760px;margin:48px auto 0;display:flex;flex-direction:column;align-items:center;gap:40px">
 
-      <!-- Photo : remplace le div ci-dessous par <img src="photo.jpg" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid var(--orange)"> -->
-      <div class="reveal" style="width:140px;height:140px;border-radius:50%;background:var(--card);border:3px solid var(--orange);display:flex;align-items:center;justify-content:center;font-size:52px;flex-shrink:0">
+      <!-- Photo : remplace le div ci-dessous par <img src="photo.jpg" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid var(--blue)"> -->
+      <div class="reveal" style="width:140px;height:140px;border-radius:50%;background:var(--card);border:3px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:52px;flex-shrink:0">
         🧑‍💻
       </div>
 
       <div class="reveal" style="text-align:center">
         <h3 style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px">Adam</h3>
-        <p style="font-size:13px;color:var(--orange);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px">Fondateur &amp; Développeur</p>
+        <p style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px">Fondateur &amp; Développeur</p>
 
         <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:620px;margin:0 auto 18px">
           Passionné par la création de sites web et de jeux vidéo depuis mon plus jeune âge, j'ai commencé par réaliser de petits projets simples sur Scratch, comme un jeu inspiré de Flappy Bird. Avec le temps, je me suis tourné vers Python afin d'aller plus loin dans le développement et d'explorer de nouveaux domaines, notamment l'intelligence artificielle. J'ai ainsi travaillé sur plusieurs projets, comme un système de détection d'émotions ou encore un détecteur de ronflement. J'ai également créé un site web éducatif d'apprentissage afin de proposer une plateforme utile et accessible pour apprendre de manière plus moderne et interactive.
@@ -1452,7 +1457,7 @@ footer {
           </div>
         </div>
         <div style="margin-top:24px;padding:20px;background:var(--card);border-radius:12px;border:1px solid var(--border2)">
-          <p style="font-size:13px;color:var(--muted);line-height:1.6">Questions sur la sécurité de votre enfant sur DebatArena ? Consultez notre <a href="legal.html" style="color:var(--orange)">Notice Parentale complète</a> ou écrivez-nous à <a href="mailto:adam01.kafai@gmail.com" style="color:var(--orange)">adam01.kafai@gmail.com</a>.</p>
+          <p style="font-size:13px;color:var(--muted);line-height:1.6">Questions sur la sécurité de votre enfant sur DebatArena ? Consultez notre <a href="legal.html" style="color:var(--blue)">Notice Parentale complète</a> ou écrivez-nous à <a href="mailto:adam01.kafai@gmail.com" style="color:var(--blue)">adam01.kafai@gmail.com</a>.</p>
         </div>
       </div>
     </div>
@@ -1464,7 +1469,7 @@ footer {
   <div class="section-inner" style="text-align:center">
     <div class="section-label reveal" style="justify-content:center">Rejoins l'arène</div>
     <h2 class="cta-title reveal">
-      Ton argument<br>mérite d'être<br><span class="highlight">entendu.</span>
+      <span style="color:#4CD137">Parle.</span><br><span style="color:var(--text)">Convaincs.</span><br><span style="color:#FF3838">Gagne.</span>
     </h2>
     <p class="cta-sub reveal">Gratuit. Android. Dès 10 ans.</p>
     <a href="#" class="cta-btn reveal" style="opacity:0.75;cursor:default;pointer-events:none;">
