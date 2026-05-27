@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Supprimer votre compte DebatArena — procédure simple et rapide.">
+<title>Supprimer mon compte — DebatArena</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800;12..96,900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0f;
+  --bg2: #13141a;
+  --card: #16181e;
+  --border: #23252e;
+  --green: #4CD137;
+  --red: #FF3838;
+  --blue: #1CB0F6;
+  --blue-dim: rgba(28,176,246,0.12);
+  --blue-border: rgba(28,176,246,0.25);
+  --text: #f0f0f4;
+  --muted: #7a7e94;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* ── Header ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,13,15,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+
+.brand-icon {
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.brand-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+.brand-deb { color: var(--green); }
+.brand-are { color: var(--red); }
+
+.back-link {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--blue); }
+
+/* ── Main ── */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.hero-icon {
+  width: 72px; height: 72px;
+  background: rgba(255,56,56,0.12);
+  border: 1px solid rgba(255,56,56,0.25);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+  margin: 0 auto 24px;
+}
+
+.hero h1 {
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.hero p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-title .num {
+  width: 26px; height: 26px;
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.card p { font-size: 15px; color: var(--muted); }
+.card p + p { margin-top: 8px; }
+.card strong { color: var(--text); }
+
+/* ── Email CTA ── */
+.email-cta {
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  text-align: center;
+  margin: 32px 0;
+}
+
+.email-cta p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--blue);
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.email-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ── Warning box ── */
+.warning {
+  background: rgba(255,56,56,0.07);
+  border: 1px solid rgba(255,56,56,0.2);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.warning strong { color: #FF6B6B; }
+
+/* ── Data list ── */
+.data-list {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.data-list li {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.data-list li:last-child { border-bottom: none; }
+
+.data-list li .tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.tag-del { background: rgba(255,56,56,0.12); color: #FF6B6B; }
+.tag-keep { background: rgba(28,176,246,0.12); color: var(--blue); }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+footer a { color: var(--blue); text-decoration: none; }
+
+@media (max-width: 480px) {
+  main { padding: 40px 16px 60px; }
+  .card { padding: 20px; }
+  .email-cta { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">
+        <img src="assets/app_icon.png" alt="DebatArena" onerror="this.parentElement.textContent='⚔️'">
+      </div>
+      <span class="brand-deb">Débat</span><span class="brand-are">Arena</span>
+    </a>
+    <a href="index.html" class="back-link">← Retour au site</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon">🗑️</div>
+    <h1>Supprimer mon compte</h1>
+    <p>Tu peux supprimer ton compte DebatArena à tout moment. Tes données personnelles seront effacées sous <strong style="color:var(--text)">30 jours</strong>.</p>
+  </div>
+
+  <!-- Step 1 — Dans l'app -->
+  <div class="card">
+    <div class="card-title">
+      <span class="num">1</span>
+      Depuis l'application (méthode rapide)
+    </div>
+    <p>Ouvre l'app DebatArena et suis ces étapes :</p>
+    <p style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+      <span>📱 <strong>Profil</strong> → <strong>Paramètres</strong> (icône ⚙️)</span>
+      <span>⬇️ Fais défiler jusqu'en bas</span>
+      <span>🗑️ Appuie sur <strong>« Supprimer mon compte »</strong></span>
+      <span>✅ Confirme la suppression</span>
+    </p>
+  </div>
+
+  <!-- Step 2 — Par email -->
+  <div class="card">
+    <div class="card-title">
+      <span class="num">2</span>
+      Par email (si tu n'as plus accès à l'app)
+    </div>
+    <p>Envoie-nous un email depuis l'adresse associée à ton compte :</p>
+
+    <div class="email-cta">
+      <p>Objet : <strong style="color:var(--text)">Suppression de compte DebatArena</strong><br>
+      Corps : indique ton pseudo ou l'email utilisé à l'inscription.</p>
+      <a href="mailto:adam01.kafai@gmail.com?subject=Suppression%20de%20compte%20DebatArena&body=Bonjour%2C%0A%0AJe%20souhaite%20supprimer%20mon%20compte%20DebatArena.%0A%0AMon%20pseudo%20%2F%20email%20:%20" class="email-btn">
+        ✉️ Envoyer la demande
+      </a>
+    </div>
+
+    <p>Réponse et suppression sous <strong>30 jours</strong> maximum.</p>
+  </div>
+
+  <!-- Ce qui est supprimé -->
+  <div class="card">
+    <div class="card-title">
+      <span class="num">3</span>
+      Ce qui est supprimé ou conservé
+    </div>
+    <ul class="data-list">
+      <li><span class="tag tag-del">SUPPRIMÉ</span> Adresse email, pseudo, mot de passe</li>
+      <li><span class="tag tag-del">SUPPRIMÉ</span> Date de naissance, email parent</li>
+      <li><span class="tag tag-del">SUPPRIMÉ</span> Photo de profil, bio</li>
+      <li><span class="tag tag-del">SUPPRIMÉ</span> Tokens de notification FCM</li>
+      <li><span class="tag tag-del">SUPPRIMÉ</span> Abonnement Premium et historique</li>
+      <li><span class="tag tag-keep">ANONYMISÉ</span> Speeches déjà votés (utilité communautaire)</li>
+      <li><span class="tag tag-keep">ANONYMISÉ</span> Votes exprimés (résultats de duels)</li>
+    </ul>
+
+    <div class="warning">
+      <strong>⚠️ Action irréversible.</strong> Une fois supprimé, ton compte, tes gemmes, ton XP et tes streaks ne pourront pas être récupérés.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 DebatArena &nbsp;·&nbsp; <a href="legal.html">Politique de confidentialité</a> &nbsp;·&nbsp; <a href="mailto:adam01.kafai@gmail.com">adam01.kafai@gmail.com</a></p>
+</footer>
+
+</body>
+</html>
