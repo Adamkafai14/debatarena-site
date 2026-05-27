@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DebatArena — L'arène du débat vocal. Enregistre ta position en 90 secondes, affronte un adversaire, laisse la communauté décider. Disponible sur Android.">
+<title>DebatArena — L'arène du débat vocal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800;12..96,900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF6B1A;
+  --orange2: #FF9A4D;
+  --orange-dim: rgba(255,107,26,0.15);
+  --bg: #0d0d0f;
+  --bg2: #111114;
+  --card: #16181e;
+  --border: #1e2028;
+  --border2: #2a2d3a;
+  --text: #f2f2f6;
+  --muted: #6b6f84;
+  --blue: #3B82F6;
+  --green: #22C55E;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ─── GRAIN OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.35;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 99;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(13,13,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.nav-logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--orange), var(--orange2));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  box-shadow: 0 0 20px rgba(255,107,26,0.4);
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--orange);
+  color: white;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(255,107,26,0.5);
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 32px 80px;
+}
+
+/* background cross lines */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,107,26,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,107,26,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+/* radial glow */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(255,107,26,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid rgba(255,107,26,0.35);
+  background: rgba(255,107,26,0.08);
+  border-radius: 100px;
+  padding: 6px 14px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-title {
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 0.95;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-title .line2 {
+  display: block;
+  -webkit-text-stroke: 2px var(--orange);
+  color: transparent;
+}
+
+.hero-title .line3 {
+  display: block;
+  color: var(--orange);
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 480px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-sub strong { color: var(--text); }
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  color: white;
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(255,107,26,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: pulse-glow 3s infinite;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 60px rgba(255,107,26,0.6);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255,107,26,0.35); }
+  50% { box-shadow: 0 0 60px rgba(255,107,26,0.65); }
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+.stat-val {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* ─── PHONE MOCKUP ─── */
+.phone-wrap {
+  position: relative;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.phone {
+  width: 280px;
+  height: 560px;
+  background: #0a0a0c;
+  border-radius: 44px;
+  border: 2px solid #2a2d3a;
+  box-shadow:
+    0 0 0 1px #111,
+    0 40px 100px rgba(0,0,0,0.8),
+    0 0 60px rgba(255,107,26,0.1);
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+}
+
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100px; height: 28px;
+  background: #0a0a0c;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+  border-bottom: 1px solid #1a1a1f;
+}
+
+.phone-screen {
+  padding: 40px 12px 12px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.phone-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.phone-brand {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: var(--orange);
+}
+
+.phone-tabs {
+  display: flex;
+  gap: 4px;
+  background: #1a1c23;
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 14px;
+}
+
+.phone-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 5px 0;
+  border-radius: 6px;
+  color: #555;
+}
+
+.phone-tab.active {
+  background: var(--orange);
+  color: white;
+}
+
+.duel-card {
+  background: #1a1c23;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #23252e;
+}
+
+.duel-subject {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.duel-row {
+  display: flex;
+  gap: 6px;
+}
+
+.duel-side {
+  flex: 1;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+.duel-pour {
+  background: rgba(59,130,246,0.15);
+  border: 1px solid rgba(59,130,246,0.3);
+}
+
+.duel-contre {
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+.duel-badge {
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.duel-pour .duel-badge { color: #60a5fa; }
+.duel-contre .duel-badge { color: #f87171; }
+
+.duel-pseudo {
+  font-size: 10px;
+  font-weight: 700;
+  color: #ccc;
+}
+
+.vote-bar-wrap {
+  margin-top: 8px;
+  background: #111;
+  border-radius: 4px;
+  height: 4px;
+  overflow: hidden;
+}
+
+.vote-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #3B82F6, #f87171);
+}
+
+.rec-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: white;
+  margin-top: 10px;
+  text-transform: uppercase;
+  animation: pulse-glow 2s infinite;
+}
+
+/* phone glow */
+.phone-glow {
+  position: absolute;
+  top: -40px; left: -40px; right: -40px; bottom: -40px;
+  background: radial-gradient(ellipse at center, rgba(255,107,26,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── SECTION COMMON ─── */
+section {
+  padding: 100px 32px;
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 20px; height: 2px;
+  background: var(--orange);
+}
+
+.section-title {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* ─── HOW IT WORKS ─── */
+.how-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 64px;
+  position: relative;
+}
+
+/* connector line */
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 48px;
+  left: calc(16.66% + 24px);
+  right: calc(16.66% + 24px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange), transparent 45%, transparent 55%, var(--orange));
+  border-style: dashed;
+  background:
+    repeating-linear-gradient(90deg, var(--orange) 0, var(--orange) 8px, transparent 8px, transparent 16px);
+  opacity: 0.4;
+}
+
+.step-card {
+  padding: 0 32px;
+  text-align: center;
+  position: relative;
+}
+
+.step-num {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 24px;
+  position: relative;
+  z-index: 2;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.step-card:hover .step-num {
+  border-color: var(--orange);
+  box-shadow: 0 0 30px rgba(255,107,26,0.3);
+}
+
+.step-index {
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 28px; height: 28px;
+  background: var(--orange);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.step-title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.step-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── FEATURES ─── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 64px;
+}
+
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.2s;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--orange), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.feature-card:hover {
+  border-color: rgba(255,107,26,0.4);
+  transform: translateY(-3px);
+}
+
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.feature-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.feature-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.feature-tag {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(255,107,26,0.1);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+
+/* ─── VERSUS ─── */
+.versus-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+
+.versus-section::before {
+  content: 'VS';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 280px;
+  font-weight: 900;
+  letter-spacing: -10px;
+  color: rgba(255,107,26,0.04);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.versus-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-top: 64px;
+}
+
+.versus-side {
+  padding: 32px;
+  border-radius: 20px;
+  border: 2px solid;
+}
+
+.versus-pour {
+  background: rgba(59,130,246,0.08);
+  border-color: rgba(59,130,246,0.3);
+}
+
+.versus-contre {
+  background: rgba(239,68,68,0.08);
+  border-color: rgba(239,68,68,0.3);
+}
+
+.versus-label {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.versus-pour .versus-label { color: #60a5fa; }
+.versus-contre .versus-label { color: #f87171; }
+
+.versus-quote {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.versus-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.versus-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  background: #1a1c23;
+  border: 2px solid;
+}
+
+.versus-pour .versus-avatar { border-color: rgba(59,130,246,0.5); }
+.versus-contre .versus-avatar { border-color: rgba(239,68,68,0.5); }
+
+.versus-info .name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.versus-info .xp {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.versus-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.versus-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 0 40px rgba(255,107,26,0.5);
+  animation: spin-slow 8s linear infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.versus-timer {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.vote-result {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.vote-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.vote-bars {
+  display: flex;
+  height: 8px;
+  border-radius: 100px;
+  overflow: hidden;
+  background: #1a1c23;
+  gap: 2px;
+}
+
+.vote-bar-pour {
+  background: #3B82F6;
+  width: 62%;
+  border-radius: 100px 0 0 100px;
+}
+
+.vote-bar-contre {
+  background: #ef4444;
+  flex: 1;
+  border-radius: 0 100px 100px 0;
+}
+
+.vote-pct {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.vote-pct .pour-pct { color: #60a5fa; }
+.vote-pct .contre-pct { color: #f87171; }
+
+/* ─── SAFETY ─── */
+.safety-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-top: 64px;
+}
+
+.safety-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.safety-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.safety-dot {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.25);
+}
+
+.safety-text strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+
+.safety-text span {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.age-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.age-badge {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  text-align: center;
+}
+
+.age-range {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+
+.age-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 16px 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.marquee-item::after {
+  content: '⚔️';
+  font-size: 16px;
+  opacity: 0.5;
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(255,107,26,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-title {
+  font-size: clamp(48px, 7vw, 90px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: 0.95;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-title .highlight {
+  color: var(--orange);
+  -webkit-text-stroke: 0;
+}
+
+.cta-sub {
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 40px;
+  background: linear-gradient(135deg, var(--orange), #FF8C42);
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 0 60px rgba(255,107,26,0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 2;
+  animation: pulse-glow 3s infinite;
+}
+
+.cta-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 80px rgba(255,107,26,0.7);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-brand {
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--orange); }
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .phone-wrap { display: none; }
+  .hero-sub { margin: 0 auto 40px; }
+  .hero-actions { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .steps-grid { grid-template-columns: 1fr; gap: 40px; }
+  .steps-grid::before { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .versus-grid { grid-template-columns: 1fr; }
+  .versus-divider { flex-direction: row; }
+  .safety-grid { grid-template-columns: 1fr; gap: 40px; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">⚔️</div>
+    DebatArena
+  </a>
+  <a href="https://play.google.com/store" class="nav-cta">
+    📲 Télécharger
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">⚔️ L'arène du débat vocal</div>
+      <h1 class="hero-title">
+        PRENDS
+        <span class="line2">POSITION.</span>
+        <span class="line3">GAGNE.</span>
+      </h1>
+      <p class="hero-sub">
+        Enregistre ton argument en <strong>90 secondes</strong>. Affronte un adversaire du camp opposé. La <strong>communauté vote</strong> — le meilleur argument l'emporte.
+      </p>
+      <div class="hero-actions">
+        <a href="https://play.google.com/store" class="btn-primary">
+          📲 Disponible sur Android
+        </a>
+        <a href="#comment" class="btn-secondary">
+          Comment ça marche →
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-val">90s</div>
+          <div class="stat-label">Par argument</div>
+        </div>
+        <div>
+          <div class="stat-val">48h</div>
+          <div class="stat-label">Pour voter</div>
+        </div>
+        <div>
+          <div class="stat-val">1v1</div>
+          <div class="stat-label">Duels auto</div>
+        </div>
+        <div>
+          <div class="stat-val">13+</div>
+          <div class="stat-label">Dès 13 ans</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="phone-wrap">
+      <div class="phone-glow"></div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-topbar">
+            <span class="phone-brand">⚔️ DebatArena</span>
+            <span style="font-size:18px">🔔</span>
+          </div>
+          <div class="phone-tabs">
+            <div class="phone-tab active">Forum</div>
+            <div class="phone-tab">Duels</div>
+            <div class="phone-tab">Créer</div>
+            <div class="phone-tab">Profil</div>
+          </div>
+
+          <div class="duel-card">
+            <div class="duel-subject">🌍 Réseaux sociaux</div>
+            <div class="duel-row">
+              <div class="duel-side duel-pour">
+                <div class="duel-badge">Pour</div>
+                <div class="duel-pseudo">@alex_d</div>
+              </div>
+              <div class="duel-side duel-contre">
+                <div class="duel-badge">Contre</div>
+                <div class="duel-pseudo">@sara_m</div>
+              </div>
+            </div>
+            <div class="vote-bar-wrap">
+              <div class="vote-bar" style="width:64%"></div>
+            </div>
+          </div>
+
+          <div class="duel-card">
+            <div class="duel-subject">🎓 Université gratuite</div>
+            <div class="duel-row">
+              <div class="duel-side duel-pour">
+                <div class="duel-badge">Pour</div>
+                <div class="duel-pseudo">@maya_k</div>
+              </div>
+              <div class="duel-side duel-contre">
+                <div class="duel-badge">Contre</div>
+                <div class="duel-pseudo">@tom_r</div>
+              </div>
+            </div>
+            <div class="vote-bar-wrap">
+              <div class="vote-bar" style="width:45%"></div>
+            </div>
+          </div>
+
+          <div class="duel-card">
+            <div class="duel-subject">🤖 IA dans les écoles</div>
+            <div class="duel-row">
+              <div class="duel-side duel-pour">
+                <div class="duel-badge">Pour</div>
+                <div class="duel-pseudo">@leo_x</div>
+              </div>
+              <div class="duel-side duel-contre">
+                <div class="duel-badge">Contre</div>
+                <div class="duel-pseudo">@zoe_b</div>
+              </div>
+            </div>
+            <div class="vote-bar-wrap">
+              <div class="vote-bar" style="width:78%"></div>
+            </div>
+          </div>
+
+          <div class="rec-btn">🎙 Enregistrer mon argument</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Faut-il interdire les réseaux sociaux avant 16 ans</div>
+    <div class="marquee-item">L'IA va-t-elle remplacer les enseignants</div>
+    <div class="marquee-item">Should university be free for all</div>
+    <div class="marquee-item">¿El deporte debe ser obligatorio en el colegio</div>
+    <div class="marquee-item">La semaine de 4 jours est-elle l'avenir</div>
+    <div class="marquee-item">Is social media doing more harm than good</div>
+    <div class="marquee-item">Faut-il interdire les réseaux sociaux avant 16 ans</div>
+    <div class="marquee-item">L'IA va-t-elle remplacer les enseignants</div>
+    <div class="marquee-item">Should university be free for all</div>
+    <div class="marquee-item">¿El deporte debe ser obligatorio en el colegio</div>
+    <div class="marquee-item">La semaine de 4 jours est-elle l'avenir</div>
+    <div class="marquee-item">Is social media doing more harm than good</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="comment">
+  <div class="section-inner">
+    <div class="section-label reveal">Comment ça marche</div>
+    <h2 class="section-title reveal">3 étapes.<br>1 gagnant.</h2>
+    <p class="section-sub reveal">Pas de clavier, pas de trolls. Juste ta voix, ta conviction, et le verdict de la communauté.</p>
+
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">
+          🎙️
+          <div class="step-index">1</div>
+        </div>
+        <h3 class="step-title">Enregistre</h3>
+        <p class="step-desc">Choisis un sujet, prends position (POUR ou CONTRE), et enregistre ton argument vocal en 90 secondes maximum.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">
+          ⚔️
+          <div class="step-index">2</div>
+        </div>
+        <h3 class="step-title">Affronte</h3>
+        <p class="step-desc">L'app te match automatiquement avec quelqu'un du camp opposé. Le duel s'ouvre à la communauté pour 48 heures.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">
+          🏆
+          <div class="step-index">3</div>
+        </div>
+        <h3 class="step-title">Gagne</h3>
+        <p class="step-desc">La communauté écoute et vote. Le meilleur argument l'emporte. Tu gagnes XP, gemmes et badges de progression.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERSUS DEMO -->
+<section class="versus-section">
+  <div class="section-inner">
+    <div class="section-label reveal">Un duel en direct</div>
+    <h2 class="section-title reveal">Deux camps.<br>Un seul vainqueur.</h2>
+
+    <div class="versus-grid reveal">
+      <div class="versus-side versus-pour">
+        <div class="versus-label">🔵 Pour</div>
+        <p class="versus-quote">"Les réseaux sociaux permettent aux jeunes de s'exprimer et de s'organiser comme jamais auparavant dans l'histoire."</p>
+        <div class="versus-user">
+          <div class="versus-avatar">👨</div>
+          <div class="versus-info">
+            <div class="name">@alex_debate</div>
+            <div class="xp">⭐ 1 240 XP · Série 🔥 8</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="versus-divider">
+        <div class="versus-icon">⚔️</div>
+        <div class="versus-timer">48h de vote</div>
+      </div>
+
+      <div class="versus-side versus-contre">
+        <div class="versus-label">🔴 Contre</div>
+        <p class="versus-quote">"Les plateformes optimisées pour l'engagement détruisent l'attention et la santé mentale des adolescents."</p>
+        <div class="versus-user">
+          <div class="versus-avatar">👩</div>
+          <div class="versus-info">
+            <div class="name">@sara_talks</div>
+            <div class="xp">⭐ 2 080 XP · Série 🔥 14</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vote-result reveal">
+      <div class="vote-label">Résultat communauté</div>
+      <div class="vote-bars">
+        <div class="vote-bar-pour"></div>
+        <div class="vote-bar-contre"></div>
+      </div>
+      <div class="vote-pct">
+        <span class="pour-pct">🔵 Pour — 62%</span>
+        <span class="contre-pct">Contre — 38% 🔴</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="section-inner">
+    <div class="section-label reveal">Fonctionnalités</div>
+    <h2 class="section-title reveal">L'arène complète.</h2>
+    <p class="section-sub reveal">Tout ce qu'il faut pour débattre mieux, progresser, et grimper dans le classement.</p>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feature-icon">🌍</span>
+        <h3 class="feature-title">Multilingue</h3>
+        <p class="feature-desc">Sujets en Français, Anglais et Espagnol. Débats dans ta langue, contre des adversaires du monde entier.</p>
+        <span class="feature-tag">FR · EN · ES</span>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">📚</span>
+        <h3 class="feature-title">Formations</h3>
+        <p class="feature-desc">Améliore ta rhétorique avec des cours sur l'argumentation, l'intonation, la réfutation et l'art de persuader.</p>
+        <span class="feature-tag">Gratuit + Premium</span>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🔥</span>
+        <h3 class="feature-title">Streaks hebdo</h3>
+        <p class="feature-desc">Maintiens ta série semaine après semaine. Des paliers de gemmes et de badges récompensent la régularité.</p>
+        <span class="feature-tag">Gamification</span>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🏆</span>
+        <h3 class="feature-title">XP & Classements</h3>
+        <p class="feature-desc">Gagne de l'expérience à chaque victoire, vote et formation. Grimpe dans le classement global ou entre amis.</p>
+        <span class="feature-tag">Progression</span>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🎭</span>
+        <h3 class="feature-title">Avatar customisable</h3>
+        <p class="feature-desc">Personnalise ton avatar avec des items débloquables via gemmes ou abonnement Premium.</p>
+        <span class="feature-tag">Identité</span>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">💎</span>
+        <h3 class="feature-title">Premium</h3>
+        <p class="feature-desc">Discours illimités, accès anticipé aux votes, formations avancées, et items exclusifs en boutique.</p>
+        <span class="feature-tag">Abonnement</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-label reveal">Pour les parents</div>
+    <h2 class="section-title reveal">Une arène<br>sécurisée.</h2>
+
+    <div class="safety-grid">
+      <ul class="safety-list">
+        <li class="safety-item reveal">
+          <div class="safety-dot">🔒</div>
+          <div class="safety-text">
+            <strong>Cloisonnement par âge</strong>
+            <span>Les 13-15 ans, 16-17 ans et 18+ évoluent dans des espaces totalement séparés. Aucune interaction cross-cohorte.</span>
+          </div>
+        </li>
+        <li class="safety-item reveal">
+          <div class="safety-dot">✉️</div>
+          <div class="safety-text">
+            <strong>Consentement parental (- de 15 ans)</strong>
+            <span>Le compte d'un enfant de moins de 15 ans ne s'active qu'après validation par email d'un parent ou tuteur légal.</span>
+          </div>
+        </li>
+        <li class="safety-item reveal">
+          <div class="safety-dot">🚫</div>
+          <div class="safety-text">
+            <strong>Zéro publicité pour les mineurs</strong>
+            <span>Aucune régie publicitaire n'est activée pour les utilisateurs mineurs. Pas de tracking commercial.</span>
+          </div>
+        </li>
+        <li class="safety-item reveal">
+          <div class="safety-dot">🛡️</div>
+          <div class="safety-text">
+            <strong>Modération prioritaire</strong>
+            <span>Profil privé par défaut pour tous les mineurs. Les signalements impliquant des mineurs sont traités en priorité.</span>
+          </div>
+        </li>
+        <li class="safety-item reveal">
+          <div class="safety-dot">📋</div>
+          <div class="safety-text">
+            <strong>Conforme RGPD / CNIL</strong>
+            <span>Données hébergées en Europe, droits d'accès et de suppression garantis, conformité article 8 du RGPD.</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="reveal">
+        <p style="font-size:14px;color:var(--muted);margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;font-weight:800;">Tranches d'âge disponibles</p>
+        <div class="age-grid">
+          <div class="age-badge">
+            <div class="age-range">10–12</div>
+            <div class="age-label">Pré-ados</div>
+          </div>
+          <div class="age-badge">
+            <div class="age-range">13–15</div>
+            <div class="age-label">Collège</div>
+          </div>
+          <div class="age-badge">
+            <div class="age-range">16–17</div>
+            <div class="age-label">Lycée</div>
+          </div>
+          <div class="age-badge">
+            <div class="age-range">18+</div>
+            <div class="age-label">Adultes</div>
+          </div>
+        </div>
+        <div style="margin-top:24px;padding:20px;background:var(--card);border-radius:12px;border:1px solid var(--border2)">
+          <p style="font-size:13px;color:var(--muted);line-height:1.6">Questions sur la sécurité de votre enfant sur DebatArena ? Consultez notre <a href="legal.html" style="color:var(--orange)">Notice Parentale complète</a> ou écrivez-nous à <a href="mailto:kafai.allae@gmail.com" style="color:var(--orange)">kafai.allae@gmail.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner" style="text-align:center">
+    <div class="section-label reveal" style="justify-content:center">Rejoins l'arène</div>
+    <h2 class="cta-title reveal">
+      Ton argument<br>mérite d'être<br><span class="highlight">entendu.</span>
+    </h2>
+    <p class="cta-sub reveal">Gratuit. Android. Dès 13 ans.</p>
+    <a href="https://play.google.com/store" class="cta-btn reveal">
+      📲 Télécharger sur Android
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">⚔️ DebatArena</div>
+  <div class="footer-links">
+    <a href="legal.html#pp">Politique de Confidentialité</a>
+    <a href="legal.html#cgu">CGU</a>
+    <a href="legal.html#parental">Notice Parentale</a>
+    <a href="mailto:kafai.allae@gmail.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 DebatArena — kafai.allae@gmail.com</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = `${(i % 4) * 80}ms`;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
